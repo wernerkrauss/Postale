@@ -11,28 +11,21 @@
  */
 class MessagesMember extends DataObjectDecorator {
 	
-	/**
-	 * Update the database fields
-	 * @return array
-	 */
-	public function extraStatics() {
-		return array (
-			'many_many' => array (
-				'Threads' => 'Thread'
-			),
-			'has_one' => array (
+        private static $has_one = array (
 				'Avatar' => 'Image'
-			),
-			'many_many_extraFields' => array (
+			);
+        private static $many_many = array (
+				'Threads' => 'Thread'
+			);
+        private static $many_many_extraFields = array (
 				'Threads' => array (
 					'Deleted' => 'Boolean',
 					'IsRead' => 'Boolean'
 				)
-			)
-		);
-	}
-	
-	/**
+			);
+
+
+        /**
 	 * Update the CMS fields to include an upload for Avatar
 	 * @param FieldSet $fields The reference to the fieldset object
 	 */
@@ -86,9 +79,9 @@ class MessagesMember extends DataObjectDecorator {
 	public function SendMessageLink()
 	{
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-		Requirements::javascript('dataobject_manager/javascript/facebox.js');
+		Requirements::javascript('postale/javascript/facebox.js');
 		Requirements::javascript('postale/javascript/behaviour.js');
-		Requirements::css('dataobject_manager/css/facebox.css');				
+		Requirements::css('postale/css/facebox.css');				
 		return MessagesPage::Link('add')."?to=".$this->owner->ID;
 	}
 	

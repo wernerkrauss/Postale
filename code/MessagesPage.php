@@ -11,50 +11,50 @@ class MessagesPage extends Page_Controller {
 	/**
 	 * @var string The URL segment that will point to this controller
 	 */
-	public static $url_segment;
+	private static $url_segment;
 	
 	/**
 	 * @var string The origin address of emails
 	 */
-	public static $from_address = null;
+	private static $from_address = null;
 	 
 	/**
 	  * @var string The from name (also appears in the closing line of emails)
 	  */
-	public static $from_name = null;
+	private static $from_name = null;
 	
 	/**
 	 * @var string A filter clause for the members search. For more advanced functionality,
 	 * use {@link getSearchableMembers()} in a decorator
 	 */
-	public static $members_filter = null;
+	private static $members_filter = null;
 	
 	/**
 	 * @var string The field to use as a label for members in this module (e.g. "Nickname" or "FirstName")
 	 * This field can also be a custom getter.
 	 */
-	public static $member_full_label_field = "Name";
+	private static $member_full_label_field = "Name";
 
 	/**
 	 * @var string A single field used to represent a member (e.g. "Nickname" or FirstName")
 	 */
-	public static $member_short_label_field = "FirstName";
+	private static $member_short_label_field = "FirstName";
 	
 	/**
 	 * @var int The number of messages per page
 	 */
-	public static $messages_per_page = 25;
+	private static $messages_per_page = 25;
 	
 	/**
 	 * @var int The length of a message body when summarized
 	 * (autocomplete search)
 	 */
-	public static $summary_length = 40;
+	private static $summary_length = 40;
 	
 	/**
 	 * @var array The allowed actions for this controller
 	 */
-	public static $allowed_actions = array (
+	private static $allowed_actions = array (
 		'autocompleterecipients',
 		'autocompletesearch',
 		'CreateMessageForm',
@@ -116,7 +116,10 @@ class MessagesPage extends Page_Controller {
 		$query = self::get_messages_extended_query($filter);
 		if(!isset($_REQUEST['start'])) $_REQUEST['start'] = 0;
 		$limit = $_REQUEST['start'].",".self::$messages_per_page;
-		$query->limit($limit);
+		$query ### UPGRADE_REQUIRED  
+/* Replaced ->limit(
+Comment: DataList limit method no longer modifies current list; only returns a new version. 
+###*/->limit($limit);
 		$result = singleton("Thread")->buildDataObjectSet($query->execute(), 'DataObjectSet', $query, 'Thread');
 		if($result)
 			$result->parseQueryLimit($query);
@@ -188,8 +191,14 @@ class MessagesPage extends Page_Controller {
 		foreach(singleton('Member')->searchableFields() as $field => $arr)
 			$query->select[] = "`Member`.{$field}";
 
-		$query->innerJoin("Thread", "`Message`.ThreadID = `Thread`.ID");
-		$query->innerJoin("Member","`Member`.ID = `Message`.AuthorID");
+		$query ### UPGRADE_REQUIRED  
+/* Replaced ->innerJoin(
+Comment: DataList innerJoin method no longer modifies current list; only returns a new version. 
+###*/->innerJoin("Thread", "`Message`.ThreadID = `Thread`.ID");
+		$query ### UPGRADE_REQUIRED  
+/* Replaced ->innerJoin(
+Comment: DataList innerJoin method no longer modifies current list; only returns a new version. 
+###*/->innerJoin("Member","`Member`.ID = `Message`.AuthorID");
 		$filters = array();
 		$filters[] = "`Message`.Body LIKE '%{$search}%'";
 		$filters[] = "`Thread`.Subject LIKE '%{$search}%'";
@@ -211,10 +220,10 @@ class MessagesPage extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-metadata/jquery.metadata.js');
-		Requirements::javascript('dataobject_manager/javascript/facebox.js');
+		Requirements::javascript('postale/javascript/facebox.js');
 		Requirements::javascript('postale/javascript/validation.js');
 		Requirements::javascript('postale/javascript/validation_improvements.js');		
-		Requirements::css('dataobject_manager/css/facebox.css');
+		Requirements::css('postale/css/facebox.css');
 		Requirements::javascript('postale/javascript/jquery.fcbkcomplete.js');
 		Requirements::javascript('postale/javascript/jquery.form.js');
 		Requirements::javascript('postale/javascript/jquery.scrollTo.js');
