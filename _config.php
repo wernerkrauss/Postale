@@ -10,11 +10,6 @@ if($dir != "postale") {
 }
 
 
-// Check dependencies
-if(!class_exists("DataObjectManager")) {
-	user_error(_t('Messages.DATAOBJECTMANAGER','The Postale module requires DataObjectManager'),E_USER_ERROR);
-}
-
-DataObject::add_extension('Member','MessagesMember');
+Object::add_extension('Member','MessagesMember'); //@todo move to yml
 
 MessagesPage::set_url('messages');
