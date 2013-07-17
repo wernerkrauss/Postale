@@ -3,7 +3,7 @@
 	<div class="messages">
 		<div id="messages_util" class="clearfix">
 			<div id="new_message">
-				<a class="btn" rel="fb" href="$NewMessageLink">+ <% _t('Postale.NEWMESSAGE','New Message') %></a>
+				<a class="btn" rel="fb" href="$NewMessageLink">+ <%t Postale.NEWMESSAGE 'New Message' %></a>
 			</div>
 			<div id="messages_search">
 				<%-- include MessagesSearch --%>

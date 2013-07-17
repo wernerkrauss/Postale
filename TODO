@@ -1,6 +1,6 @@
 UPGRADING ISSUES
-* update templates
-* move translations to yaml
+* --update templates--
+* generate translations in yaml
 * check queries / ORM
 * config yaml
 * facebox images

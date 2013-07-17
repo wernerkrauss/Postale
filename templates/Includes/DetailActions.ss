@@ -1,25 +1,25 @@
 <div class="message_actions">
-	<a class="btn" href="$BackToMessagesLink">&laquo; <% _t('Postale.BACKTOMESSAGES','Back to messages') %></a>
-	<% if Thread %>
-		<% control Thread %>
-			<a class="btn" href="$MarkDeletedLink"><% _t('Postale.DELETE','Delete') %></a>
-			<% if IsRead %>
-				<a class="btn" href="$MarkUnreadLink"><% _t('Postale.MARKASUNREAD','Mark as unread') %></a>
+	<a class="btn" href="$BackToMessagesLink">&laquo; <%t Postale.BACKTOMESSAGES 'Back to messages' %></a>
+	<% if $Thread %>
+		<% with $Thread %>
+			<a class="btn" href="$MarkDeletedLink"><%t Postale.DELETE 'Delete' %></a>
+			<% if $IsRead %>
+				<a class="btn" href="$MarkUnreadLink"><%t Postale.MARKASUNREAD 'Mark as unread' %></a>
 			<% else %>
-				<a class="btn" href="$MarkReadLink"><% _t('Postale.MARKASREAD','Mark read') %></a>
+				<a class="btn" href="$MarkReadLink"><%t Postale.MARKASREAD 'Mark read' %></a>
 			<% end_if %>
 			<div class="next_prev">
-				<% if PrevLink %>
-					<a class="btn" href="$PrevLink" title="<% _t('Postale.PREV','Previous') %>">&laquo;</a>
+				<% if $PrevLink %>
+					<a class="btn" href="$PrevLink" title="<%t Postale.PREV 'Previous' %>">&laquo;</a>
 				<% else %>
-					<a class="btn disabled" href="javascript:void(0)" title="<% _t('Postale.PREV','Previous') %>">&laquo;</a>
+					<a class="btn disabled" href="javascript:void(0)" title="<%t Postale.PREV 'Previous' %>">&laquo;</a>
 				<% end_if %>
-				<% if NextLink %>
-					<a class="btn" href="$NextLink" title="<% _t('Postale.NEXT','Next') %>">&raquo;</a>
+				<% if $NextLink %>
+					<a class="btn" href="$NextLink" title="<%t Postale.NEXT 'Next' %>">&raquo;</a>
 				<% else %>
-					<a class="btn disabled" href="javascript:void(0)" title="<% _t('Postale.NEXT','Next') %>">&raquo;</a>
+					<a class="btn disabled" href="javascript:void(0)" title="<%t Postale.NEXT 'Next' %>">&raquo;</a>
 				<% end_if %>
 			</div>
-		<% end_control %>
+		<% end_with %>
 	<% end_if %>
 </div>

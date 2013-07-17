@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />		
 	</head>
 	<body class="messages message_new {url:'$Link'}">
-		<h2><% _t('Postale.CREATEMESSAGE','Create a New Message') %></h2>
+		<h2><%t Postale.CREATEMESSAGE 'Create a New Message' %></h2>
 		$CreateMessageForm
 	</body>
 </html>

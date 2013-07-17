@@ -7,18 +7,18 @@
 
 <p class="body">
 	<% with Member %>
-		<% sprintf(_t('Postale.SALUTATION','Hello, %s!'),$ShortLabel) %>
+		<%t Postale.SALUTATION 'Hello, {name}!' name=$ShortLabel %>
 	<% end_with %>
 </p>
 <% with Message %>
-	<p><% sprintf(_t('Postale.USERSENTYOUMESSAGE','%s sent you a message.'),$Author.Nickname) %></p>
-	<p><strong><% _t('Postale.SUBJECT','Subject') %></strong>: $Thread.Subject</p>
-	<p><strong><% _t('Postale.MESSAGE','Message') %></strong>: $Body</p>
-	<p><% _t('Postale.TOREPLY','To reply to this message, follow the link below:') %></p>
+	<p><%t Postale.USERSENTYOUMESSAGE '{name} sent you a message.' name=$Author.Nickname %></p>
+	<p><strong><%t Postale.SUBJECT 'Subject' %></strong>: $Thread.Subject</p>
+	<p><strong><%t Postale.MESSAGE 'Message' %></strong>: $Body</p>
+	<p><%t Postale.TOREPLY 'To reply to this message, follow the link below:' %></p>
 	<p><a href="$Link">{$BaseHref}/$Link</a></p>
 <% end_with %>
 <% if FromName %>
-	<p><% _t('Postale.CLOSING','Sincerely,') %><br />
+	<p><%t Postale.CLOSING 'Sincerely,' %><br />
 	$FromName</p>
 <% end_if %>
 

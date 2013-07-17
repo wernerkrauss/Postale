@@ -1,10 +1,10 @@
-<% control MessagesSearchForm %>
+<% with MessagesSearchForm %>
 	<form $FormAttributes>
-		<% control Fields %>
+		<% loop Fields %>
 			$Field
-		<% end_control %>
-		<% control Actions %>
+		<% end_loop %>
+		<% loop Actions %>
 			$Field
-		<% end_control %>
+		<% end_loop %>
 	</form>
-<% end_control %>
+<% end_with %>

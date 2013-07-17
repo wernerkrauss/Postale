@@ -1,10 +1,10 @@
-<% if Results %>
+<% if $Results %>
 	<ul>
-	<% control Results %>
+	<% loop Results %>
 		<li>
 			<h5><a href="$Link">$Subject</a></h5>
 			<div>$Summary</div>
 		</li>
-	<% end_control %>
+	<% end_loop %>
 	</ul>
 <% end_if %>
