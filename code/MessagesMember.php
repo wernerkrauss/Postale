@@ -9,7 +9,7 @@
  *
  * @package Postale
  */
-class MessagesMember extends DataObjectDecorator {
+class MessagesMember extends DataExtension {
 	
         private static $has_one = array (
 				'Avatar' => 'Image'
@@ -29,12 +29,15 @@ class MessagesMember extends DataObjectDecorator {
 	 * Update the CMS fields to include an upload for Avatar
 	 * @param FieldSet $fields The reference to the fieldset object
 	 */
-	public function updateCMSFields(FieldSet &$fields) {
-		$fields->addFieldToTab('Root.Avatar',new ImageField("Avatar", "Upload avatar."));
+	public function updateCMSFields(FieldList $fields) {
+		$fields->addFieldToTab('Avatar',new ImageField("Avatar", "Upload avatar"));
+                
+                return $fields;
 	}
 	
 	/**
 	 * Gets the short label for a member based on {@link MessagesPage::$member_short_label_field}
+         * @todo use config api
 	 * @return string
 	 */
 	public function ShortLabel() {
@@ -43,6 +46,7 @@ class MessagesMember extends DataObjectDecorator {
 	
 	/**
 	 * Gets the full label for a member based on {@link MessagesPage::$member_full_label_field}
+         * @todo use config api
 	 * @return string
 	 */	
 	public function FullLabel() {

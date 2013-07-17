@@ -16,29 +16,29 @@ class MessagesPage extends Page_Controller {
 	/**
 	 * @var string The origin address of emails
 	 */
-	private static $from_address = null;
+	public static $from_address = null;
 	 
 	/**
 	  * @var string The from name (also appears in the closing line of emails)
 	  */
-	private static $from_name = null;
+	public static $from_name = null;
 	
 	/**
 	 * @var string A filter clause for the members search. For more advanced functionality,
 	 * use {@link getSearchableMembers()} in a decorator
 	 */
-	private static $members_filter = null;
+	public static $members_filter = null;
 	
 	/**
 	 * @var string The field to use as a label for members in this module (e.g. "Nickname" or "FirstName")
 	 * This field can also be a custom getter.
 	 */
-	private static $member_full_label_field = "Name";
+	public static $member_full_label_field = "Name";
 
 	/**
 	 * @var string A single field used to represent a member (e.g. "Nickname" or FirstName")
 	 */
-	private static $member_short_label_field = "FirstName";
+	public static $member_short_label_field = "FirstName";
 	
 	/**
 	 * @var int The number of messages per page
@@ -49,7 +49,7 @@ class MessagesPage extends Page_Controller {
 	 * @var int The length of a message body when summarized
 	 * (autocomplete search)
 	 */
-	private static $summary_length = 40;
+	public static $summary_length = 40;
 	
 	/**
 	 * @var array The allowed actions for this controller
@@ -76,54 +76,45 @@ class MessagesPage extends Page_Controller {
 	 * @param string $url The URL to use
 	 * @param $priority The priority of the URL rule
 	 */
-	public static function set_url($url, $priority = 50) {
+	public static function set_url($url) {
 		self::$url_segment = $url;
-		Director::addRules($priority,array(
+		$rules = array(
 			$url => 'MessagesPage'
-		));	
+		);	
+                Config::inst()->update('Director', 'rules', $rules);
 	}
 	
-	/**
-	 * Returns a pre-loaded {@link SQLQuery} object with all of the necessary
-	 * joins and aliasing. This object is modified and enhanched by other methods
-	 * @param string $filter A filter clause for the query
-	 * @return SQLQuery
-	 */
-	public static function get_messages_extended_query($filter = null) {
-		$query = Member::currentUser()->getManyManyComponentsQuery(
-			'Threads', 
-			$filter,
-			null,
-			"INNER JOIN `Message` ON `Message`.ThreadID = `Thread`.ID"
-		);
-		
-		// Save these fields as unique aliases so we don't call them twice {@see Thread::IsRead()}
-		$query->select[] = "`Member_Threads`.IsRead AS CacheIsRead";
-		$query->select[] = "`Member_Threads`.Deleted AS CacheDeleted";
-
-		$query->select[] = "MAX(`Message`.Created) AS LatestMessageDate";
-		$query->orderby("LatestMessageDate DESC");
-		return $query;	
-	}
 
 	/**
-	 * Gets the main query object and parses the page limit. Passes back a {@link DataObjectSet}
+	 * Gets the main query object and parses the page limit. Passes back a {@link ArrayList}
 	 * ready for the template
-	 * @param string $filter A filter clause for the query
-	 * @return DataObjectSet
+	 * @param string|array $exclude A filter clause for the query which can be passed to DataList->exclude()
+	 * @return ArrayList
 	 */
-	public static function get_messages_extended($filter = null) {
-		$query = self::get_messages_extended_query($filter);
+	public static function get_messages_extended($exclude = null) {
 		if(!isset($_REQUEST['start'])) $_REQUEST['start'] = 0;
-		$limit = $_REQUEST['start'].",".self::$messages_per_page;
-		$query ### UPGRADE_REQUIRED  
-/* Replaced ->limit(
-Comment: DataList limit method no longer modifies current list; only returns a new version. 
-###*/->limit($limit);
-		$result = singleton("Thread")->buildDataObjectSet($query->execute(), 'DataObjectSet', $query, 'Thread');
-		if($result)
-			$result->parseQueryLimit($query);
-		return $result;	
+                
+                //get the SQLQuery object
+                $query = Member::currentUser()
+                        ->Threads()
+                        ->exclude($exclude)
+                        ->innerJoin("Message", '"Message"."ThreadID" = "Thread"."ID"')
+                        ->dataQuery->query()
+                        ->selectField('"Member_Threads"."IsRead"','CacheIsRead')
+                        ->selectField('"Member_Threads"."Deleted"','CacheDeleted')
+//                        ->selectField('MAX("Message"."Created")','LatestMessageDate')
+//                        ->setOrderBy("LatestMessageDate DESC")
+                        ->setLimit(self::$messages_per_page, $_REQUEST['start']);
+
+                $results = $query->execute();
+
+                $list = ArrayList::create();
+                
+                foreach ($results as $row) {
+                    $list->push(new $row['ClassName']($row));
+                }
+
+		return $list;	
 	}
 	
 	/**
@@ -131,25 +122,25 @@ Comment: DataList limit method no longer modifies current list; only returns a n
 	 * @return DataObjectSet
 	 */
 	public static function get_all_messages() {
-		return self::get_messages_extended("`Deleted` != 1");
+		return self::get_messages_extended(array('Deleted' => 1)); 
 	}
 	
 	/**
 	 * Get all of the undeleted, unread messages
-	 * @return DataObjectSet
+	 * @return ArrayList
 	 */
 	public static function get_unread_messages() {
-		return self::get_messages_extended("`Deleted` != 1 AND `IsRead` != 1");
+		return self::get_messages_extended(array('Deleted' => 1, 'IsRead' => 1)); 
 	}
 	
 	/**
 	 * Get all of the messages based on the current filter (stored in {@link Session})
-	 * @return DataObjectSet
+	 * @return ArrayList
 	 */
 	public static function get_messages_filtered() {
-		if(Session::get('MessagesFilter') == "unread")
-			return self::get_unread_messages();
-		return self::get_all_messages();
+		return (Session::get('MessagesFilter') == "unread")
+			? self::get_unread_messages()
+                        : self::get_all_messages();
 	}
 	
 	/**
@@ -186,7 +177,8 @@ Comment: DataList limit method no longer modifies current list; only returns a n
 	 */
 	public static function get_search_query($keywords) {
 		$search = Convert::raw2sql($keywords);
-		$query = singleton("Message")->extendedSQL();
+//		$query = singleton("Message")->extendedSQL();
+                $query = Message::get()->dataQuery()->query();
 		$query->select[] = "`Thread`.Subject AS Subject";
 		foreach(singleton('Member')->searchableFields() as $field => $arr)
 			$query->select[] = "`Member`.{$field}";
@@ -244,7 +236,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			return array();
 		}
 		if(!Director::is_ajax())
-			return Director::redirectBack();	
+			return $this->redirectBack();	
 	}
 	
 	/**
@@ -257,7 +249,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$thread->setDeleted();
 		if(Director::is_ajax())
 			return new SS_HTTPResponse('deleted',200);
-		return Director::redirectBack();
+		return $this->redirectBack();
 	}
 	
 	/** 
@@ -307,7 +299,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$thread->updateIsReadForUser(true);
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-			return Director::redirectBack();
+			return $this->redirectBack();
 		}
 	}
 	
@@ -320,7 +312,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$thread->updateIsReadForUser(false);
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-			return Director::redirectBack();
+			return $this->redirectBack();
 		}	
 	}
 	
@@ -333,7 +325,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$thread->setDeleted(true);
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-			return Director::redirectBack();
+			return $this->redirectBack();
 		}	
 	}
 
@@ -389,8 +381,8 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 		$f = new Form(
 			$this,
 			"MessageForm",
-			new FieldSet(),
-			new FieldSet(
+			new FieldList(),
+			new FieldList(
 				$a = new FormAction('doMarkRead',_t('Postale.MARKASREAD','Mark as read')),
 				$b = new FormAction('doMarkUnread',_t('Postale.MARKASUNREAD','Mark as unread')),
 				$c = new FormAction('doDelete',_t('Postale.DELETE','Delete'))			
@@ -469,12 +461,12 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 		return new Form(
 			$this,
 			"CreateMessageForm",
-			new FieldSet(
+			new FieldList(
 				new DropdownField('To', _t('Postale.TO','To'),$map),
 				new TextField('Subject', _t('Postale.SUBJECT','Subject')),
 				new TextareaField('Body', _t('Postale.BODY','Body'))
 			),
-			new FieldSet (
+			new FieldList (
 				new FormAction('doCreate', _t('Postale.SEND','Send')),
 				new FormAction('doCancel', _t('Postale.CANCEL','Cancel'))
 			),
@@ -491,11 +483,11 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$form = new Form (
 				$this,
 				"ReplyForm",
-				new FieldSet(
+				new FieldList(
 					new TextareaField('Body',_t('Postale.REPLY','Reply')),
 					new HiddenField('ID', '', $thread->ID)
 				),
-				new FieldSet(
+				new FieldList(
 					new FormAction('doReply', _t('Postale.REPLY','Reply'))
 				),
 				new MessagesValidator("Body")
@@ -518,10 +510,10 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 		$f = new Form(
 			$this,
 			"MessagesSearchForm",
-			new FieldSet(
+			new FieldList(
 				$field
 			),
-			new FieldSet(
+			new FieldList(
 				$d = new FormAction('doSearch','Search')
 			)
 		);
@@ -541,7 +533,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$form->sessionMessage($msg,'good');
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-		return Director::redirectBack();
+		return $this->redirectBack();
 	}
 	
 	/**
@@ -556,7 +548,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$form->sessionMessage($msg,'good');
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-		return Director::redirectBack();
+		return $this->redirectBack();
 	}
 
 	/**
@@ -571,7 +563,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$form->sessionMessage($msg,'good');
 			if(Director::is_ajax())
 				return $this->renderWith('MessagesInterface');
-		return Director::redirectBack();	
+		return $this->redirectBack();	
 	}
 
 	/**
@@ -589,7 +581,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$message->write();
 			if(Director::is_ajax())
 				return $this->renderWith('MessageDetail');
-			return Director::redirectBack();
+			return $this->redirectBack();
 		}
 	}
 
@@ -621,13 +613,13 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			$message->write();
 			$label = MessagesPage::$member_short_label_field;
 			$recipients = $thread->Members("`Member`.ID != " . Member::currentUserID())->column(MessagesPage::$member_short_label_field);
-			$list = DOMUtil::readable_list($recipients);
+			$list = PostaleUtil::readable_list($recipients);
 			$msg = sprintf(_t('Postale.SENTSUCCESSFULLY','Your message was sent successfully to %s'),$list);
 			if(Director::is_ajax())
 				return new SS_HTTPResponse($msg, 200);
 			$form->sessionMessage($msg,'good');
 		}
-		return Director::redirectBack();		
+		return $this->redirectBack();		
 	}
 	
 	/**
@@ -676,7 +668,8 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 	 */
 	protected function getFromRequest($className) {
 		if($id = $this->cleanID())
-			return DataObject::get_by_id($className, $id);
+//			return DataObject::get_by_id($className, $id);
+			return $className::get()->byID($id);
 		return false;
 	}
 }

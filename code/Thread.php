@@ -21,15 +21,15 @@ class Thread extends DataObject
 	protected $currentIndex;
 
 
-	static $db = array (
+	private static $db = array (
 		'Subject' => 'Varchar'
 	);
 	
-	static $has_many = array (
+	private static $has_many = array (
 		'Messages' => 'Message'
 	);
 	
-	static $belongs_many_many = array (
+	private static $belongs_many_many = array (
 		'Members' => 'Member'
 	);
 	
@@ -46,7 +46,7 @@ class Thread extends DataObject
 	 * @return string
 	 */
 	public function Link() {
-		return MessagesPage::Link('show', $this->ID);
+		return MessagesPage::create()->Link('show', $this->ID);
 	}
 	
 	/**
@@ -54,7 +54,7 @@ class Thread extends DataObject
 	 * @return string
 	 */
 	public function DeleteLink() {
-		return MessagesPage::Link('delete', $this->ID);
+		return MessagesPage::create()->Link('delete', $this->ID);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ class Thread extends DataObject
 	 * @return string
 	 */
 	public function MarkReadLink() {
-		return MessagesPage::Link('markread', $this->ID);
+		return MessagesPage::create()->Link('markread', $this->ID);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Thread extends DataObject
 	 * @return string
 	 */	
 	public function MarkUnreadLink() {
-		return MessagesPage::Link('markunread', $this->ID);	
+		return MessagesPage::create()->Link('markunread', $this->ID);	
 	}
 	
 	/**
@@ -78,7 +78,7 @@ class Thread extends DataObject
 	 * @return string
 	 */	
 	public function MarkDeletedLink() {
-		return MessagesPage::Link('markdeleted', $this->ID);	
+		return MessagesPage::create()->Link('markdeleted', $this->ID);	
 	}
 	
 	/**
@@ -150,7 +150,7 @@ class Thread extends DataObject
 		if($others) {
 			$map = $others->column(MessagesPage::$member_short_label_field);
 			$list = array_merge($you, $map);
-			return DOMUtil::readable_list($list);
+			return PostaleUtil::readable_list($list);
 		}
 	}	
 
