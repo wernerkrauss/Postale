@@ -1,0 +1,17 @@
+UPGRADING ISSUES
+* update templates
+* move translations to yaml
+* check queries / ORM
+* config yaml
+* facebox images
+
+BUGS
+* Link in E-Mail not working (redirectBack is empty)
+
+
+ENHANCEMENTS
+* remove facebox and use bootstrap modals
+* use bootstrap
+* make Email more configurable
+* make avatar configurable
+* make folders like inbox etc...
