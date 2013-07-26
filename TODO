@@ -8,6 +8,8 @@ UPGRADING ISSUES
 BUGS
 * Link in E-Mail not working (redirectBack is empty)
 
+* check ->selectField('MAX("Message"."Created")','LatestMessageDate') in MessagesPage::get_messages_extended(); not working
+
 
 ENHANCEMENTS
 * remove facebox and use bootstrap modals
