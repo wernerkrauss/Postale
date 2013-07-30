@@ -102,9 +102,10 @@ class MessagesPage extends Page_Controller {
                         ->dataQuery->query()
                         ->selectField('"Member_Threads"."IsRead"','CacheIsRead')
                         ->selectField('"Member_Threads"."Deleted"','CacheDeleted')
-//                        ->selectField('MAX("Message"."Created")','LatestMessageDate')
-//                        ->setOrderBy("LatestMessageDate DESC")
-                        ->setLimit(self::$messages_per_page, $_REQUEST['start']);
+                        ->selectField('MAX("Message"."Created")','LatestMessageDate')
+                        ->setOrderBy("LatestMessageDate DESC")
+                        ->setLimit(self::$messages_per_page, $_REQUEST['start'])
+                        ->addGroupBy('"Thread"."ID"');
 
                 $results = $query->execute();
 
