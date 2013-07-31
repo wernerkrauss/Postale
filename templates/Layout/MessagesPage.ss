@@ -3,7 +3,7 @@
 	<div class="messages">
 		<div id="messages_util" class="clearfix">
 			<div id="new_message">
-				<a class="btn" rel="fb" href="$NewMessageLink">+ <%t Postale.NEWMESSAGE 'New Message' %></a>
+                <a href="#NewMessageDialog" data-toggle="modal" class="btn btn-primary"><i class="icon-plus icon-white pull-left"></i>&nbsp;<%t Postale.NEWMESSAGE 'New Message' %></a>
 			</div>
 			<div id="messages_search">
 				<%-- include MessagesSearch --%>
@@ -13,4 +13,12 @@
 			<% include MessagesInterface %>
 		</div>
 	</div>
+</div>
+<%-- Modal for new Message --%>
+<div id="NewMessageDialog" class="modal hide fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><%t Postale.NEWMESSAGE 'New Message' %></h3>
+    </div>
+	$CreateMessageForm
 </div>

@@ -216,6 +216,7 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 		Requirements::javascript('postale/javascript/facebox.js');
 		Requirements::javascript('postale/javascript/validation.js');
 		Requirements::javascript('postale/javascript/validation_improvements.js');		
+		Requirements::css('postale/css/messages.css');
 		Requirements::css('postale/css/facebox.css');
 		Requirements::javascript('postale/javascript/jquery.fcbkcomplete.js');
 		Requirements::javascript('postale/javascript/jquery.form.js');
@@ -379,19 +380,22 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 	 * @return Form
 	 */	
 	public function MessageForm() {
-		$f = new Form(
+		$f = BootstrapForm::create(
 			$this,
 			"MessageForm",
 			new FieldList(),
 			new FieldList(
-				$a = new FormAction('doMarkRead',_t('Postale.MARKASREAD','Mark as read')),
-				$b = new FormAction('doMarkUnread',_t('Postale.MARKASUNREAD','Mark as unread')),
-				$c = new FormAction('doDelete',_t('Postale.DELETE','Delete'))			
+				$a = FormAction::create('doMarkRead',_t('Postale.MARKASREAD','Mark as read')),
+				$b = FormAction::create('doMarkUnread',_t('Postale.MARKASUNREAD','Mark as unread')),
+				$c = FormAction::create('doDelete',_t('Postale.DELETE','Delete'))
 			)
 		);
 		$a->useButtonTag = true;
+		$a->setIcon('ok');
 		$b->useButtonTag = true;
+		$b->setIcon('envelope');
 		$c->useButtonTag = true;
+		$c->setIcon('trash');
 		$f->disableSecurityToken();
 		return $f;
 	}
@@ -459,20 +463,30 @@ Comment: DataList innerJoin method no longer modifies current list; only returns
 			}
 		}
 
-		return new Form(
+		$form =  BootstrapForm::create(
 			$this,
 			"CreateMessageForm",
-			new FieldList(
-				new DropdownField('To', _t('Postale.TO','To'),$map),
-				new TextField('Subject', _t('Postale.SUBJECT','Subject')),
-				new TextareaField('Body', _t('Postale.BODY','Body'))
+			 FieldList::create(
+				 $to = DropdownField::create('To', _t('Postale.TO','To'),$map),
+				 $subject = TextField::create('Subject', _t('Postale.SUBJECT','Subject')),
+				 $body =TextareaField::create('Body', _t('Postale.BODY','Body'))
 			),
-			new FieldList (
-				new FormAction('doCreate', _t('Postale.SEND','Send')),
-				new FormAction('doCancel', _t('Postale.CANCEL','Cancel'))
+			 FieldList ::create(
+				 FormAction::create('doCreate', _t('Postale.SEND','Send'))
+				    ->addExtraClass('btn-primary'),
+				 LiteralField::create('Cancel',  '<div class="btn cancel" data-dismiss="modal" aria-hidden="true">'
+					 . _t('Postale.CANCEL','Cancel') . '</div>')
 			),
-			new MessagesValidator("To","Subject","Body")
+			 MessagesValidator::create("To","Subject","Body")
 		);
+		$form->setModal();
+
+		$to->setAttribute('data-URL',$this->Link());
+		$to->addExtraClass('input-block-level');
+		$subject->addExtraClass('input-block-level');
+		$body->addExtraClass('input-block-level');
+
+		return $form;
 	}
 	
 	/**

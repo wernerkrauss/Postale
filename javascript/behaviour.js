@@ -6,9 +6,9 @@ $(function() {
 		return false;
 	});
 	
-	if($('#Form_CreateMessageForm_To').length) {
-		var url = $("body").metadata().url;
-		$("#Form_CreateMessageForm_To").fcbkcomplete({
+	if($('#BootstrapForm_CreateMessageForm_To').length) {
+		var url = $('#BootstrapForm_CreateMessageForm_To').data('url');
+		$("#BootstrapForm_CreateMessageForm_To").fcbkcomplete({
 			json_url: url + "/autocompleterecipients",
 	        cache: false,
 	        filter_case: false,
@@ -154,5 +154,8 @@ $(function() {
 				$(this).val(initial_search_val).removeClass('focus');
 		});
 	}
+    $('#NewMessageDialog .close , #NewMessageDialog .cancel').on('click',function(e) {
+        $('#NewMessageDialog').modal('hide');
+    })
 });
 })(jQuery);

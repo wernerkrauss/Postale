@@ -8,12 +8,15 @@ UPGRADING ISSUES
 BUGS
 * Link in E-Mail not working (redirectBack is empty)
 
-* check ->selectField('MAX("Message"."Created")','LatestMessageDate') in MessagesPage::get_messages_extended(); not working
+* --check ->selectField('MAX("Message"."Created")','LatestMessageDate') in MessagesPage::get_messages_extended(); not working--
 
 
 ENHANCEMENTS
-* remove facebox and use bootstrap modals
-* use bootstrap
+* --remove facebox and use bootstrap modals--
+* --use bootstrap--
 * make Email more configurable
 * make avatar configurable
 * make folders like inbox etc...
+* change fckbcomplete to use a native SS FormField
+* clean up:
+  * remove facebox code

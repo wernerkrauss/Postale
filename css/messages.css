@@ -1,14 +1,13 @@
-.messages * {font-family:arial;}
 /* controls */
 #messages_interface {clear:both;}
-#messages_table {margin:10px 0;border: solid #e5e5e5;border-width:0 0 1px 0;clear:both;}
-#messages_table td {border:1px solid #e5e5e5;border-width:1px 0 0 0;padding:4px 2px;}
+/*#messages_table {margin:10px 0;border: solid #e5e5e5;border-width:0 0 1px 0;clear:both;}*/
+/*#messages_table td {border:1px solid #e5e5e5;border-width:1px 0 0 0;padding:4px 2px;}*/
 #messages_table td.checkbox {width:20px;}
 #messages_table td.avatar {width:75px;text-align:center;}
 #messages_table td.avatar img {width:50px;}
 #messages_table td.author {width:150px;}
 #messages_table td.delete {width:20px;}
-#messages_table td.delete a {display:block;text-indent:-9999em;width:16px;height:16px;background:url(../images/cancel.png) no-repeat;}
+/*#messages_table td.delete a {display:block;text-indent:-9999em;width:16px;height:16px;background:url(../images/cancel.png) no-repeat;}*/
 #messages_table tr.unread td.subject a {font-weight:bold;}
 #controls_wrap {font-size:11px;color:#666;width:100%;}
 #select_control {width:49%;float:left;}
@@ -17,7 +16,6 @@
 #show_control a.current {background:#6782b3;border:1px solid #6782b3;-moz-border-radius:5px;-webkit-border-radius:5px;color:#fff;}
 .message_actions {background:#f2f2f2;padding:6px 6px;overflow:hidden;margin:10px 0;}
 .next_prev {float:right;}
-#new_message {text-align:right;padding:4px 0;width:110px;float:right;}
 #facebox .close {visibility:hidden;}
 #facebox table {border:0;}
 
@@ -47,27 +45,17 @@
 
 .message_new {margin:0;}
 
-/* buttons */
-.messages a.btn,
-.messages form button {display: inline-block;background: #dcdcdc url(../images/btn.bg.png) repeat-x 0px 0px;padding:2px 6px 2px 6px;font-weight:bold;text-shadow: 1px 1px 1px rgba(255,255,255,0.5);border:1px solid rgba(0,0,0,0.4);-moz-border-radius: 5px;-moz-box-shadow: 0px 0px 2px rgba(0,0,0,0.5);-webkit-border-radius: 5px;-webkit-box-shadow: 0px 0px 2px rgba(0,0,0,0.5);color:#555;font-size:11px;font-family:arial;text-decoration:none;}
-a.btn {line-height:150%;}
-a.btn:hover,
-.messages form button:hover {background-color:#e5e5e5;text-decoration:none;}
-a.btn.disabled,
-.messages form button.disabled {background-color:#f2f2f2;border-color:#c8c8c8;color:#b8b8b8;}
-
-
 /* specific form tweaks */
-.messages #Form_CreateMessageForm #Form_CreateMessageForm_action_doCancel {background:#dcdcdc;color:#555;border-color:#aaa #999 #999 #aaa;}
-.messages #Form_CreateMessageForm #Form_CreateMessageForm_action_doCancel:hover {background:#e5e5e5;}
-.messages #Body textarea {border:1px solid #999;}
-.messages #Form_MessageForm {width:100%;}
-.messages #Form_CreateMessageForm #To select {display:none;}
-.messages #Form_CreateMessageForm .text input {width:100%;border:1px solid #999;padding:4px 2px;}
-.messages #Form_ReplyForm label {width:65px;text-align:right;padding-right:10px;margin:0;}
-.messages #Form_ReplyForm .middleColumn {clear:none;margin:0;padding:0;}
-.messages #Form_ReplyForm .Actions {margin-left:71px;}
-#messages_util {width:100%;}
+/*.messages #Form_CreateMessageForm #Form_CreateMessageForm_action_doCancel {background:#dcdcdc;color:#555;border-color:#aaa #999 #999 #aaa;}*/
+/*.messages #Form_CreateMessageForm #Form_CreateMessageForm_action_doCancel:hover {background:#e5e5e5;}*/
+/*.messages #Body textarea {border:1px solid #999;}*/
+/*.messages #Form_MessageForm {width:100%;}*/
+/*.messages #BootstrapForm_CreateMessageForm #To select {display:none;}*/
+/*.messages #BootstrapForm_CreateMessageForm .text input {width:100%;border:1px solid #999;padding:4px 2px;}*/
+/*.messages #Form_ReplyForm label {width:65px;text-align:right;padding-right:10px;margin:0;}*/
+/*.messages #Form_ReplyForm .middleColumn {clear:none;margin:0;padding:0;}*/
+/*.messages #Form_ReplyForm .Actions {margin-left:71px;}*/
+#messages_util {width:100%; margin-bottom: 0.5em;}
 #messages_search {width:160px;float:right;padding-top:4px;}
 #Form_MessagesSearchForm {width:160px;font-size:11px;color:#666;margin:0;padding:0;}
 #Form_MessagesSearchForm_MessagesSearch {display:block;float:left;border:1px solid #ccc;height:14px;display:block;width:128px;margin:0;color:#999;font-weight:normal;font-size:11px;-moz-border-radius: 5px 0 0 5px;-webkit-border-top-left-radius: 5px;-webkit-border-bottom-left-radius: 5px;padding:4px;}
