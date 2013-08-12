@@ -30,11 +30,15 @@ class MessagesMember extends DataExtension {
 	 * @param FieldSet $fields The reference to the fieldset object
 	 */
 	public function updateCMSFields(FieldList $fields) {
-		$imageField = UploadField::create("Avatar", "Upload avatar");
-		$imageField->allowedExtensions = array('jpg', 'gif', 'png');
-		$fields->addFieldToTab('Root.Avatar', $imageField);
-                
-                return $fields;
+		$avatar = UploadField::create('Avatar');
+		$avatar->setFolderName('members/' . $this->owner->KontaktID);
+		$avatar->setAllowedMaxFileNumber(1);
+		$avatar->setCanAttachExisting(false); // Block access to Silverstripe assets library
+		$avatar->setCanPreviewFolder(false); // Don't show target filesystem folder on upload field
+		$avatar->relationAutoSetting = false; // Prevents the form thinking the GalleryPage is the underlying object
+		$avatar->setAllowedExtensions(array('jpg', 'jpeg', 'png', 'gif'));
+		$fields->addFieldToTab('Root.Avatar',$avatar);
+//		$fields->push('Avatar',$avatar);
 	}
 	
 	/**
