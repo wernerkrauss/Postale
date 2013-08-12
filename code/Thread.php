@@ -24,6 +24,10 @@ class Thread extends DataObject
 	private static $db = array (
 		'Subject' => 'Varchar'
 	);
+
+	private static $has_one = array(
+		'MessageFolder' => 'MessageFolder'
+	);
 	
 	private static $has_many = array (
 		'Messages' => 'Message'
