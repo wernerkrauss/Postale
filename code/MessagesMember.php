@@ -30,7 +30,9 @@ class MessagesMember extends DataExtension {
 	 * @param FieldSet $fields The reference to the fieldset object
 	 */
 	public function updateCMSFields(FieldList $fields) {
-		$fields->addFieldToTab('Avatar',new ImageField("Avatar", "Upload avatar"));
+		$imageField = UploadField::create("Avatar", "Upload avatar");
+		$imageField->allowedExtensions = array('jpg', 'gif', 'png');
+		$fields->addFieldToTab('Avatar', $imageField);
                 
                 return $fields;
 	}
