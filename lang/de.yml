@@ -1,4 +1,4 @@
-en:
+de:
   DataObjectManager:
     AND: und
   Message:
@@ -54,4 +54,4 @@ en:
   postale:
     MESSAGESMARKEDDELETED: '%d Nachricht(en) gelöscht'
     MESSAGESMARKEDREAD: '%d Nachricht(en) als gelesen markiert'
-    MESSAGESMARKEDUNREAD: '%d Nachricht(en) als ungelesen markiert
+    MESSAGESMARKEDUNREAD: '%d Nachricht(en) als ungelesen markiert'
