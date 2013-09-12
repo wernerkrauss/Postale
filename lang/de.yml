@@ -1,0 +1,57 @@
+en:
+  DataObjectManager:
+    AND: und
+  Message:
+    PLURALNAME: Nachrichten
+    SINGULARNAME: Nachricht
+  MessageFolder:
+    PLURALNAME: 'Ordner'
+    SINGULARNAME: 'Ordner'
+  MessagesPage_ss:
+    MESSAGES: Nachrichten
+  Postale:
+    ALL: 'Alle'
+    BACKTOMESSAGES: 'Zurück'
+    BETWEEN: Zwischen
+    BODY: Body
+    CANCEL: Abbrechen
+    CLOSING: 'Mit freundlichen Grüßen,'
+    CREATEMESSAGE: 'Neue Nachricht'
+    DELETE: Löschen
+    DELETED: Gelöscht
+    LOGIN: 'Bitte loggen Sie sich ein, um die Nachrichten zu lesen'
+    MARKASREAD: 'Als gelesen markieren'
+    MARKASUNREAD: 'Als ungelesen markieren'
+    MESSAGE: Nachricht
+    MESSAGES: Nachrichten
+    NEWMESSAGE: 'Neue Nachricht'
+    NEWMESSAGESUBJECT: '%s hat Ihnen eine Nachricht gesendet'
+    NEXT: Nächste
+    NOMESSAGES: 'Keine Nachrichten gefunden'
+    NONE: 'Keine'
+    NORESULTS: 'Die Suche liefert keine Ergebnisse.'
+    PREV: Vorherige
+    READ: 'Gelesen '
+    READMORE: 'mehr...'
+    REPLY: 'Antworten'
+    SALUTATION: 'Hallo, {name}!'
+    SEARCHFOR: 'Nach {query} suchen'
+    SEARCHMESSAGES: 'Suche Nachrichten...'
+    SELECT: 'Auswählen '
+    SEND: Senden
+    SENTSUCCESSFULLY: 'Ihre Nachricht wurde erfolgreich an %s gesendet'
+    SHOW: 'Anzeigen '
+    SUBJECT: Betreff
+    THREADNOTFOUND: 'Die Unterhaltung konnte nicht gefunden werden.'
+    TO: To
+    TOREPLY: 'Um auf diese Nachricht zu anworten klicken Sie bitte unterhalb:'
+    UNREAD: 'Ungelesen '
+    USERSENTYOUMESSAGE: '{name} hat Ihnen eine Nachricht geschickt.'
+    YOU: Ihnen
+  Thread:
+    PLURALNAME: Unterhaltungen
+    SINGULARNAME: Unterhaltung
+  postale:
+    MESSAGESMARKEDDELETED: '%d Nachricht(en) gelöscht'
+    MESSAGESMARKEDREAD: '%d Nachricht(en) als gelesen markiert'
+    MESSAGESMARKEDUNREAD: '%d Nachricht(en) als ungelesen markiert

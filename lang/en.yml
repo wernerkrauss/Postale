@@ -1,0 +1,57 @@
+en:
+  DataObjectManager:
+    AND: and
+  Message:
+    PLURALNAME: Messags
+    SINGULARNAME: Message
+  MessageFolder:
+    PLURALNAME: 'Message Folders'
+    SINGULARNAME: 'Message Folder'
+  MessagesPage_ss:
+    MESSAGES: Messages
+  Postale:
+    ALL: 'All '
+    BACKTOMESSAGES: 'Back to messages'
+    BETWEEN: Between
+    BODY: Body
+    CANCEL: Cancel
+    CLOSING: 'Sincerely,'
+    CREATEMESSAGE: 'Create a New Message'
+    DELETE: Delete
+    DELETED: Deleted
+    LOGIN: 'Please log in to access your messages.'
+    MARKASREAD: 'Mark read'
+    MARKASUNREAD: 'Mark as unread'
+    MESSAGE: Message
+    MESSAGES: Messages
+    NEWMESSAGE: 'New Message'
+    NEWMESSAGESUBJECT: '%s sent you a message'
+    NEXT: Next
+    NOMESSAGES: 'No messages found '
+    NONE: 'None '
+    NORESULTS: 'There are no messages that match your search criteria.'
+    PREV: Previous
+    READ: 'Read '
+    READMORE: more...
+    REPLY: Reply
+    SALUTATION: 'Hello, {name}!'
+    SEARCHFOR: 'Search for {query}'
+    SEARCHMESSAGES: 'Search messages...'
+    SELECT: 'Select '
+    SEND: Send
+    SENTSUCCESSFULLY: 'Your message was sent successfully to %s'
+    SHOW: 'Show '
+    SUBJECT: Subject
+    THREADNOTFOUND: 'That thread could not be found.'
+    TO: To
+    TOREPLY: 'To reply to this message, follow the link below:'
+    UNREAD: 'Unread '
+    USERSENTYOUMESSAGE: '{name} sent you a message.'
+    YOU: You
+  Thread:
+    PLURALNAME: Threads
+    SINGULARNAME: Thread
+  postale:
+    MESSAGESMARKEDDELETED: '%d message(s) deleted'
+    MESSAGESMARKEDREAD: '%d message(s) marked as read'
+    MESSAGESMARKEDUNREAD: '%d message(s) marked as unread'
