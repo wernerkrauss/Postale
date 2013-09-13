@@ -16,7 +16,8 @@ class Message extends DataObject {
 		'Thread' => 'Thread',
 		'Author' => 'Member'
 	);
-		
+
+	private static $email_class = 'Email';
 	/**
 	 * After the message is written, contact all the recipients of the message
 	 * (other than the author) and send them an email notification
@@ -30,7 +31,8 @@ class Message extends DataObject {
 					foreach($members as $member) {
 						// Send it to everyone who hasn't deleted the thread
 						if(!$thread->isDeletedForUser($member->ID)) {
-							$e = new Email(MessagesPage::$from_address, $member->Email, sprintf(_t('Postale.NEWMESSAGESUBJECT','%s sent you a message'), $author->FullLabel()));
+							$emailClass = Config::inst()->get('Message','email_class');
+							$e = $emailClass::create(MessagesPage::$from_address, $member->Email, sprintf(_t('Postale.NEWMESSAGESUBJECT','%s sent you a message'), $author->FullLabel()));
 							$e->ss_template = "MessageNotification";
 							$e->populateTemplate(array(
 								'Member' => $member,
