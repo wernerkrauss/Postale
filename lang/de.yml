@@ -13,7 +13,7 @@ de:
     ALL: 'Alle'
     BACKTOMESSAGES: 'Zurück'
     BETWEEN: Zwischen
-    BODY: Body
+    BODY: Nachricht
     CANCEL: Abbrechen
     CLOSING: 'Mit freundlichen Grüßen,'
     CREATEMESSAGE: 'Neue Nachricht'
@@ -43,7 +43,7 @@ de:
     SHOW: 'Anzeigen '
     SUBJECT: Betreff
     THREADNOTFOUND: 'Die Unterhaltung konnte nicht gefunden werden.'
-    TO: To
+    TO: An
     TOREPLY: 'Um auf diese Nachricht zu anworten klicken Sie bitte unterhalb:'
     UNREAD: 'Ungelesen '
     USERSENTYOUMESSAGE: '{name} hat Ihnen eine Nachricht geschickt.'
